@@ -65,7 +65,7 @@ public final class TrendingView extends LinearLayout
   @Inject GithubService githubService;
   @Inject Picasso picasso;
   @Inject IntentFactory intentFactory;
-  @Inject DrawerLayout drawerLayout;
+  // TODO @Inject DrawerLayout drawerLayout;
 
   private final PublishSubject<TrendingTimespan> timespanSubject;
   private final EnumAdapter<TrendingTimespan> timespanAdapter;
@@ -94,7 +94,7 @@ public final class TrendingView extends LinearLayout
     ellipsis.start();
 
     toolbarView.setNavigationIcon(R.drawable.menu_icon);
-    toolbarView.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+    // TODO toolbarView.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
     timespanView.setAdapter(timespanAdapter);
     timespanView.setSelection(TrendingTimespan.WEEK.ordinal());

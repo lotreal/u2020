@@ -23,11 +23,7 @@ import timber.log.Timber;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-@Module(
-    complete = false,
-    library = true,
-    overrides = true
-)
+@Module(includes = ApiModule.class)
 public final class DebugApiModule {
   @Provides @Singleton HttpUrl provideHttpUrl(@ApiEndpoint Preference<String> apiEndpoint) {
     return HttpUrl.parse(apiEndpoint.get());

@@ -18,10 +18,13 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
+
+import com.jakewharton.u2020.DaggerU2020Component;
 import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.U2020Component;
+import com.jakewharton.u2020.U2020Module;
 import com.jakewharton.u2020.data.Injector;
 import com.jakewharton.u2020.data.api.oauth.OauthService;
-import dagger.ObjectGraph;
 import javax.inject.Inject;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -35,7 +38,7 @@ public final class MainActivity extends Activity {
 
   @Inject AppContainer appContainer;
 
-  private ObjectGraph activityGraph;
+  private U2020Component activityGraph;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -47,9 +50,13 @@ public final class MainActivity extends Activity {
     }
 
     // Explicitly reference the application object since we don't want to match our own injector.
-    ObjectGraph appGraph = Injector.obtain(getApplication());
-    appGraph.inject(this);
-    activityGraph = appGraph.plus(new MainActivityModule(this));
+//    U2020Component appGraph = Injector.obtain(getApplication());
+//
+//    appGraph.inject(this);
+    // activityGraph = DaggerMainComponent.builder();
+    // activityGraph = appGraph.plus(new MainActivityModule(this));
+    activityGraph = Injector.obtain(getApplication());
+    activityGraph.inject(this);
 
     ViewGroup container = appContainer.bind(this);
 

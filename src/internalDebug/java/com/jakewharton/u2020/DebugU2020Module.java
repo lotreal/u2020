@@ -7,13 +7,11 @@ import dagger.Provides;
 import javax.inject.Singleton;
 
 @Module(
-    addsTo = U2020Module.class,
     includes = {
         DebugUiModule.class,
         DebugDataModule.class,
         DebugActionsModule.class
-    },
-    overrides = true
+    }
 )
 public final class DebugU2020Module {
   // Low-tech flag to force certain debug build behaviors when running in an instrumentation test.

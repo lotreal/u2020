@@ -9,6 +9,7 @@ import com.jakewharton.u2020.IsInstrumentationTest;
 import com.jakewharton.u2020.data.api.DebugApiModule;
 import com.jakewharton.u2020.data.api.oauth.AccessToken;
 import com.jakewharton.u2020.data.prefs.InetSocketAddressPreferenceAdapter;
+import com.squareup.moshi.Moshi;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -25,11 +26,10 @@ import javax.net.ssl.X509TrustManager;
 import retrofit.mock.NetworkBehavior;
 import timber.log.Timber;
 
+import static android.content.Context.MODE_PRIVATE;
+
 @Module(
-    includes = DebugApiModule.class,
-    complete = false,
-    library = true,
-    overrides = true
+    includes = DebugApiModule.class
 )
 public final class DebugDataModule {
   private static final int DEFAULT_ANIMATION_SPEED = 1; // 1x (normal) speed.
@@ -40,6 +40,17 @@ public final class DebugDataModule {
   private static final boolean DEFAULT_SCALPEL_WIREFRAME_ENABLED = false; // Draw views by default.
   private static final boolean DEFAULT_SEEN_DEBUG_DRAWER = false; // Show debug drawer first time.
   private static final boolean DEFAULT_CAPTURE_INTENTS = true; // Capture external intents.
+
+  @Provides @Singleton SharedPreferences provideSharedPreferences(Application app) {
+    return app.getSharedPreferences("u2020", MODE_PRIVATE);
+  }
+
+  @Provides @Singleton
+  Moshi provideMoshi() {
+    return new Moshi.Builder()
+      .add(new InstantAdapter())
+      .build();
+  }
 
   @Provides @Singleton RxSharedPreferences provideRxSharedPreferences(SharedPreferences prefs) {
     return RxSharedPreferences.create(prefs);

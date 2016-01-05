@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.U2020Component;
 import com.jakewharton.u2020.data.Injector;
-import dagger.ObjectGraph;
 
 public final class DebugActivity extends Activity {
-  private ObjectGraph appGraph;
+  private U2020Component appGraph;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

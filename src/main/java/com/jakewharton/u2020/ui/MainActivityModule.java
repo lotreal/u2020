@@ -10,10 +10,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(
-    addsTo = U2020Module.class,
-    injects = TrendingView.class
-)
+@Module
 public final class MainActivityModule {
   private final MainActivity mainActivity;
 
