@@ -15,17 +15,17 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
+
+import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.U2020App;
+import com.jakewharton.u2020.data.Injector;
+import com.jakewharton.u2020.data.api.oauth.OauthService;
+
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
-
-import com.jakewharton.u2020.DaggerU2020Component;
-import com.jakewharton.u2020.R;
-import com.jakewharton.u2020.U2020Component;
-import com.jakewharton.u2020.U2020Module;
-import com.jakewharton.u2020.data.Injector;
-import com.jakewharton.u2020.data.api.oauth.OauthService;
-import javax.inject.Inject;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -38,8 +38,6 @@ public final class MainActivity extends Activity {
 
   @Inject AppContainer appContainer;
 
-  private U2020Component activityGraph;
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     LayoutInflater inflater = getLayoutInflater();
@@ -49,14 +47,7 @@ public final class MainActivity extends Activity {
       setStatusBarColor(getWindow());
     }
 
-    // Explicitly reference the application object since we don't want to match our own injector.
-//    U2020Component appGraph = Injector.obtain(getApplication());
-//
-//    appGraph.inject(this);
-    // activityGraph = DaggerMainComponent.builder();
-    // activityGraph = appGraph.plus(new MainActivityModule(this));
-    activityGraph = Injector.obtain(getApplication());
-    activityGraph.inject(this);
+    U2020App.get(this).createMainComponent(this).inject(this);
 
     ViewGroup container = appContainer.bind(this);
 
@@ -90,13 +81,12 @@ public final class MainActivity extends Activity {
 
   @Override public Object getSystemService(@NonNull String name) {
     if (Injector.matchesService(name)) {
-      return activityGraph;
+      return Injector.obtain(getApplication());
     }
     return super.getSystemService(name);
   }
 
   @Override protected void onDestroy() {
-    activityGraph = null;
     super.onDestroy();
   }
 

@@ -16,13 +16,10 @@ import android.view.ContextThemeWrapper;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.BindDimen;
-import butterknife.ButterKnife;
-import butterknife.OnItemSelected;
+
 import com.jakewharton.u2020.R;
+import com.jakewharton.u2020.U2020App;
 import com.jakewharton.u2020.data.Funcs;
-import com.jakewharton.u2020.data.Injector;
 import com.jakewharton.u2020.data.IntentFactory;
 import com.jakewharton.u2020.data.api.GithubService;
 import com.jakewharton.u2020.data.api.Order;
@@ -37,7 +34,13 @@ import com.jakewharton.u2020.ui.misc.DividerItemDecoration;
 import com.jakewharton.u2020.ui.misc.EnumAdapter;
 import com.jakewharton.u2020.util.Intents;
 import com.squareup.picasso.Picasso;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.BindDimen;
+import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 import retrofit.Response;
 import retrofit.Result;
 import rx.Observable;
@@ -65,7 +68,8 @@ public final class TrendingView extends LinearLayout
   @Inject GithubService githubService;
   @Inject Picasso picasso;
   @Inject IntentFactory intentFactory;
-  // TODO @Inject DrawerLayout drawerLayout;
+  // TODO
+  @Inject DrawerLayout drawerLayout;
 
   private final PublishSubject<TrendingTimespan> timespanSubject;
   private final EnumAdapter<TrendingTimespan> timespanAdapter;
@@ -75,7 +79,7 @@ public final class TrendingView extends LinearLayout
   public TrendingView(Context context, AttributeSet attrs) {
     super(context, attrs);
     if (!isInEditMode()) {
-      Injector.obtain(context).inject(this);
+      U2020App.get(context).getMainComponent().inject(this);
     }
 
     timespanSubject = PublishSubject.create();
@@ -94,7 +98,8 @@ public final class TrendingView extends LinearLayout
     ellipsis.start();
 
     toolbarView.setNavigationIcon(R.drawable.menu_icon);
-    // TODO toolbarView.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+    // TODO
+    toolbarView.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
     timespanView.setAdapter(timespanAdapter);
     timespanView.setSelection(TrendingTimespan.WEEK.ordinal());
