@@ -26,5 +26,4 @@ import dagger.Subcomponent;
 //)
 public interface MainComponent {
   void inject(MainActivity activity);
-  void inject(TrendingView view);
 }

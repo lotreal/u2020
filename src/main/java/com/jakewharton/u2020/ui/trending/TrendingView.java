@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jakewharton.u2020.R;
-import com.jakewharton.u2020.U2020App;
+import com.jakewharton.u2020.RxBus;
 import com.jakewharton.u2020.data.Funcs;
+import com.jakewharton.u2020.data.Injector;
 import com.jakewharton.u2020.data.IntentFactory;
 import com.jakewharton.u2020.data.api.GithubService;
 import com.jakewharton.u2020.data.api.Order;
@@ -68,8 +67,6 @@ public final class TrendingView extends LinearLayout
   @Inject GithubService githubService;
   @Inject Picasso picasso;
   @Inject IntentFactory intentFactory;
-  // TODO
-  @Inject DrawerLayout drawerLayout;
 
   private final PublishSubject<TrendingTimespan> timespanSubject;
   private final EnumAdapter<TrendingTimespan> timespanAdapter;
@@ -79,7 +76,7 @@ public final class TrendingView extends LinearLayout
   public TrendingView(Context context, AttributeSet attrs) {
     super(context, attrs);
     if (!isInEditMode()) {
-      U2020App.get(context).getMainComponent().inject(this);
+      Injector.get(context).inject(this);
     }
 
     timespanSubject = PublishSubject.create();
@@ -98,8 +95,7 @@ public final class TrendingView extends LinearLayout
     ellipsis.start();
 
     toolbarView.setNavigationIcon(R.drawable.menu_icon);
-    // TODO
-    toolbarView.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+    toolbarView.setNavigationOnClickListener(v->RxBus.get().send(R.string.event_open_drawer));
 
     timespanView.setAdapter(timespanAdapter);
     timespanView.setSelection(TrendingTimespan.WEEK.ordinal());

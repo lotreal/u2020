@@ -13,7 +13,7 @@ import javax.inject.Singleton;
         //UiModule.class,
         //DataModule.class,
         //MainActivityModule.class,
-        DebugU2020Module.class
+        //DebugU2020Module.class
     }
 )
 public final class U2020Module {

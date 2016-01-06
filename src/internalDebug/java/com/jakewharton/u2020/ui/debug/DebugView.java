@@ -153,7 +153,7 @@ public final class DebugView extends FrameLayout {
 
   public DebugView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    Injector.obtain(context).inject(this);
+    Injector.get(context).inject(this);
 
     // Inflate all of the controls and inject them.
     LayoutInflater.from(context).inflate(R.layout.debug_view_content, this);

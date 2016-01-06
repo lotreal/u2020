@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 @Module(
     includes = {
+        U2020Module.class,
         DebugUiModule.class,
         DebugDataModule.class,
         DebugActionsModule.class

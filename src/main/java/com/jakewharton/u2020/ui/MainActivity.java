@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +16,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.jakewharton.u2020.R;
-import com.jakewharton.u2020.U2020App;
+import com.jakewharton.u2020.RxBus;
 import com.jakewharton.u2020.data.Injector;
 import com.jakewharton.u2020.data.api.oauth.OauthService;
 
@@ -40,14 +39,14 @@ public final class MainActivity extends Activity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Injector.get(this).plus(new MainActivityModule(this)).inject(this);
+
     LayoutInflater inflater = getLayoutInflater();
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       // Remove the status bar color. The DrawerLayout is responsible for drawing it from now on.
       setStatusBarColor(getWindow());
     }
-
-    U2020App.get(this).createMainComponent(this).inject(this);
 
     ViewGroup container = appContainer.bind(this);
 
@@ -77,13 +76,9 @@ public final class MainActivity extends Activity {
     });
 
     inflater.inflate(R.layout.trending_view, content);
-  }
-
-  @Override public Object getSystemService(@NonNull String name) {
-    if (Injector.matchesService(name)) {
-      return Injector.obtain(getApplication());
-    }
-    return super.getSystemService(name);
+    RxBus.get().toObserverable()
+      .filter(cmd->cmd==R.string.event_open_drawer)
+      .subscribe(cmd -> drawerLayout.openDrawer(GravityCompat.START));
   }
 
   @Override protected void onDestroy() {
