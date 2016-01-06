@@ -77,8 +77,8 @@ public final class MainActivity extends Activity {
 
     inflater.inflate(R.layout.trending_view, content);
     RxBus.get().toObserverable()
-      .filter(cmd->cmd==R.string.event_open_drawer)
-      .subscribe(cmd -> drawerLayout.openDrawer(GravityCompat.START));
+      .filter(o-> o.equals(R.string.event_open_drawer))
+      .subscribe(o-> drawerLayout.openDrawer(GravityCompat.START));
   }
 
   @Override protected void onDestroy() {

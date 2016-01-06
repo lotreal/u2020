@@ -6,6 +6,8 @@ import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
 
 /**
+ * http://nerds.weddingpartyapp.com/tech/2014/12/24/implementing-an-event-bus-with-rxjava-rxbus/
+ *
  * courtesy: https://gist.github.com/benjchristensen/04eef9ca0851f3a5d7bf
  */
 public class RxBus {
@@ -29,9 +31,5 @@ public class RxBus {
 
   public Observable<Integer> toObserverable() {
     return _bus;
-  }
-
-  public boolean hasObservers() {
-    return _bus.hasObservers();
   }
 }
